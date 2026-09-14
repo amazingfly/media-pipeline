@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "components": {
+    "sa3": {
+      "root": "../../sa3",
+      "python": ".venv/bin/python"
+    },
+    "images": {
+      "root": "../../images",
+      "python": ".venv/bin/python"
+    },
+    "ltx": {
+      "root": "../../ltx-video",
+      "python": ".venv/bin/python"
+    }
+  },
+  "stages": [
+    {
+      "id": "audio",
+      "component": "sa3",
+      "argv": [
+        "bash",
+        "{root}/colab/run_colab.sh"
+      ],
+      "env": {
+        "SA3_COLAB_CONFIG": "{root}/colab/generation_config.json",
+        "SA3_COLAB_LOCAL_OUTPUT_DIR": "{run_dir}/audio"
+      },
+      "outputs": [
+        "{run_dir}/audio/sa3_medium_360s.flac"
+      ]
+    },
+    {
+      "id": "images",
+      "component": "images",
+      "argv": [
+        "{python}",
+        "{root}/scripts/generate_images.py",
+        "{root}/config.json"
+      ]
+    },
+    {
+      "id": "video",
+      "component": "ltx",
+      "argv": [
+        "{python}",
+        "{root}/scripts/run_full_pipeline.py",
+        "--manifest",
+        "{run_dir}/video/manifest.json",
+        "--image-dir",
+        "{images.root}/scripts/output/upscaled",
+        "--music",
+        "{run_dir}/audio/sa3_medium_360s.flac"
+      ],
+      "outputs": [
+        "{run_dir}/video/music_video.mp4"
+      ]
+    },
+    {
+      "id": "shorts",
+      "component": "ltx",
+      "argv": [
+        "{python}",
+        "-m",
+        "antigravityPicker.cliV3",
+        "--outputs-dir",
+        "{run_dir}/video",
+        "--force"
+      ],
+      "outputs": [
+        "{run_dir}/video/shorts/v3/selections.json"
+      ]
+    }
+  ]
+}
