@@ -1,8 +1,8 @@
 # Media pipeline
 
 Coordinate the separate [SA3](https://github.com/amazingfly/sa3),
-[images](https://github.com/amazingfly/images), and
-[LTX video](https://github.com/amazingfly/ltx-video) repositories. This repository
+[images](https://github.com/amazingfly/images), [LTX video](https://github.com/amazingfly/ltx-video), and
+[storybook-pipeline](https://github.com/amazingfly/storybook-pipeline) repositories. This repository
 owns orchestration, cross-run prompt provenance, and optional media publishing.
 
 ## Setup
@@ -76,3 +76,7 @@ component roots are resolved from the config directory; relative Python paths
 from the component root; relative output paths from the stage working directory.
 Each stage needs `id`, `component`, and `argv`; `cwd`, `env`, and `outputs` are
 optional. Put credentials in the inherited environment, not configuration files.
+
+For storybook production, use `configs/storybook.example.json` after setting up
+the storybook checkout and its image assets. See [repository ownership and the
+organizational roadmap](docs/organization.md) for the five-repository structure.

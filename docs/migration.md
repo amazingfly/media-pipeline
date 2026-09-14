@@ -12,8 +12,8 @@ are committed. The new runner writes its own run state under `runs/` instead.
 
 The LTX-specific `scripts/run_full_pipeline.py` remains in ltx-video: it implements
 that component's retries and assembly. The orchestration repository calls it as a
-subprocess using the LTX environment. Image-specific storybook rendering remains
-in images, including its narration and video assembly utilities.
+subprocess using the LTX environment. Story compilation, review, narration, and assembly now live in the separate
+`storybook-pipeline` repository. Reusable image backends remain in images.
 
 Git history preservation:
 

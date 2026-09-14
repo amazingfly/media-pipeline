@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "components": {
+    "storybook": {
+      "root": "../../storybook-pipeline",
+      "python": ".venv/bin/python"
+    }
+  },
+  "stages": [
+    {
+      "id": "storybook",
+      "component": "storybook",
+      "argv": [
+        "{python}",
+        "{root}/scripts/run_storybook.py",
+        "--mode",
+        "colab",
+        "--story",
+        "{root}/sdxl_littlequeen_v1/storybook_mvp_v1/example_story.json",
+        "--run-dir",
+        "{run_dir}"
+      ],
+      "outputs": [
+        "{run_dir}/story/storybook.mp4"
+      ]
+    }
+  ]
+}
