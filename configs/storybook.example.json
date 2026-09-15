@@ -1,10 +1,8 @@
 {
   "version": 1,
   "components": {
-    "storybook": {
-      "root": "../../storybook-pipeline",
-      "python": ".venv/bin/python"
-    }
+    "storybook": {},
+    "images": {}
   },
   "stages": [
     {
@@ -22,7 +20,19 @@
       ],
       "outputs": [
         "{run_dir}/story/storybook.mp4"
-      ]
+      ],
+      "inputs": [
+        "{storybook.root}/sdxl_littlequeen_v1/storybook_mvp_v1/example_story.json",
+        "{storybook.root}/sdxl_littlequeen_v1/storybook_mvp_v1/lora_catalog.json"
+      ],
+      "artifact": {
+        "kind": "story",
+        "paths": [
+          "{run_dir}/story/storybook.mp4",
+          "{run_dir}/compiled_story.json"
+        ],
+        "manifest": "{run_dir}/contracts/story.json"
+      }
     }
   ]
 }

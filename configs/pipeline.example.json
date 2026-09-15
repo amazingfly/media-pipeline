@@ -1,18 +1,9 @@
 {
   "version": 1,
   "components": {
-    "sa3": {
-      "root": "../../sa3",
-      "python": ".venv/bin/python"
-    },
-    "images": {
-      "root": "../../images",
-      "python": ".venv/bin/python"
-    },
-    "ltx": {
-      "root": "../../ltx-video",
-      "python": ".venv/bin/python"
-    }
+    "sa3": {},
+    "images": {},
+    "ltx": {}
   },
   "stages": [
     {
@@ -28,6 +19,16 @@
       },
       "outputs": [
         "{run_dir}/audio/sa3_medium_360s.flac"
+      ],
+      "artifact": {
+        "kind": "audio",
+        "paths": [
+          "{run_dir}/audio/sa3_medium_360s.flac"
+        ],
+        "manifest": "{run_dir}/contracts/audio.json"
+      },
+      "inputs": [
+        "{sa3.root}/colab/generation_config.json"
       ]
     },
     {
@@ -37,6 +38,17 @@
         "{python}",
         "{root}/scripts/generate_images.py",
         "{root}/config.json"
+      ],
+      "artifact": {
+        "kind": "image",
+        "paths": [
+          "{images.root}/scripts/output/upscaled"
+        ],
+        "manifest": "{run_dir}/contracts/images.json"
+      },
+      "inputs": [
+        "{images.root}/config.json",
+        "{images.root}/scripts/prompts.json"
       ]
     },
     {
@@ -54,6 +66,27 @@
       ],
       "outputs": [
         "{run_dir}/video/music_video.mp4"
+      ],
+      "artifact": {
+        "kind": "video",
+        "paths": [
+          "{run_dir}/video/music_video.mp4"
+        ],
+        "manifest": "{run_dir}/contracts/video.json"
+      },
+      "input_contracts": [
+        {
+          "path": "{run_dir}/contracts/audio.json",
+          "kind": "audio"
+        },
+        {
+          "path": "{run_dir}/contracts/images.json",
+          "kind": "image"
+        }
+      ],
+      "inputs": [
+        "{run_dir}/audio/sa3_medium_360s.flac",
+        "{images.root}/scripts/output/upscaled"
       ]
     },
     {
@@ -69,6 +102,22 @@
       ],
       "outputs": [
         "{run_dir}/video/shorts/v3/selections.json"
+      ],
+      "artifact": {
+        "kind": "video",
+        "paths": [
+          "{run_dir}/video/shorts/v3/selections.json"
+        ],
+        "manifest": "{run_dir}/contracts/shorts.json"
+      },
+      "input_contracts": [
+        {
+          "path": "{run_dir}/contracts/video.json",
+          "kind": "video"
+        }
+      ],
+      "inputs": [
+        "{run_dir}/video/music_video.mp4"
       ]
     }
   ]

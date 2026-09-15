@@ -12,3 +12,5 @@ jobs:
           python-version: '3.12'
       - run: uv sync --locked --group dev
       - run: uv run pytest
+      - run: python scripts/workspace.py verify
+      - run: python scripts/workspace.py catalog

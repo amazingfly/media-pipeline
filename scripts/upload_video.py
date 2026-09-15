@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+# Load centralized workstation defaults; explicit environment/CLI values win.
+import sys as _workspace_sys
+from pathlib import Path as _WorkspacePath
+for _workspace_root in _WorkspacePath(__file__).resolve().parents:
+    if (_workspace_root / "media_workspace").is_dir():
+        _workspace_sys.path.insert(0, str(_workspace_root))
+        break
+from media_workspace.config import apply_environment as _apply_workspace
+_apply_workspace()
+
+
 import argparse
 import json
 import os
@@ -15,8 +26,8 @@ from typing import Any
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_AUTH_DIR = PROJECT_ROOT / "auth"
-DEFAULT_OUTPUTS_DIR = PROJECT_ROOT / "outputs"
+DEFAULT_AUTH_DIR = Path(os.environ.get("MEDIA_AUTH_ROOT", str(PROJECT_ROOT / "auth")))
+DEFAULT_OUTPUTS_DIR = Path(os.environ.get("LTX_OUTPUTS_DIR", str(PROJECT_ROOT / "outputs")))
 DEFAULT_DATABASE = DEFAULT_OUTPUTS_DIR / "upload_database.json"
 DEFAULT_YOUTUBE_CLIENT_SECRETS = DEFAULT_AUTH_DIR / "client_secret.json"
 DEFAULT_YOUTUBE_TOKEN = DEFAULT_AUTH_DIR / "youtube_token.json"

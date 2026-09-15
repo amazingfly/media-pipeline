@@ -12,8 +12,10 @@ and GPU dependencies belong to those repositories, not this runner.
 
 ```bash
 uv sync --locked --group dev
+mkdir -p ~/.config/agentic-media
+cp configs/workspace.example.json ~/.config/agentic-media/workspace.json
+# Edit workspace paths/interpreters, then select stage inputs:
 cp configs/pipeline.example.json configs/local.json
-# Edit checkout roots, Python executables, and stage inputs in configs/local.json.
 uv run media-pipeline plan --config configs/local.json --run-dir runs/demo
 uv run media-pipeline doctor --config configs/local.json --run-dir runs/demo
 uv run media-pipeline run --config configs/local.json --run-dir runs/demo
@@ -27,19 +29,19 @@ shorts. Configure the image model paths and prompts first. Change the audio
 output contract if the SA3 preset's `generation.output_name` changes. The image
 stage uses the image repository's configured output directory; for isolated image
 runs, supply a dedicated image config and update the video's input directory.
-The workstation already has an ignored `configs/local.json` with its checkout and
-interpreter paths. A successful `doctor` checks paths/executables, not model
+The workstation has an ignored `configs/local.json` for stage settings; checkout
+and interpreter paths live in `~/.config/agentic-media/workspace.json`. A successful `doctor` checks paths/executables, not model
 availability, authentication, or GPU quota.
 
 `plan` and `doctor` do not launch stages. `run` executes exactly the listed stages,
 in order, using argument arrays without shell interpolation. Each stage writes a
 log under the run directory. `pipeline-state.json` records checkpoints atomically,
 and a filesystem lock prevents two runners from owning the same run directory.
-Resume skips completed stages whose declared outputs still exist. A rerun
-invalidates subsequent stages; changing the plan requires a new run directory.
-Input content changes are not automatically detected: use a new run directory
-when inputs or component code change. Stages without output declarations rely on
-the saved exit status. Component-specific retries remain in the component tools.
+Resume verifies input/output content, component source and Python environments.
+Changed inputs or environments require a new run directory. Missing or modified
+outputs rerun their stage and invalidate downstream checkpoints. See
+[contracts and provenance](docs/contracts.md) for the exact guarantees and limits.
+
 
 ## Existing workflows
 
@@ -79,4 +81,10 @@ optional. Put credentials in the inherited environment, not configuration files.
 
 For storybook production, use `configs/storybook.example.json` after setting up
 the storybook checkout and its image assets. See [repository ownership and the
-organizational roadmap](docs/organization.md) for the five-repository structure.
+shared organization controls](docs/organization.md) for the five-repository structure.
+
+See [workflow support status](docs/workflows.md). Use `python scripts/workspace.py doctor`
+to check centralized checkout/interpreter configuration, and
+`python scripts/workspace.py run --component pipeline -- {python} SCRIPT [ARGS]`
+to launch with shared paths. Workspace setup is documented in
+[media-pipeline](https://github.com/amazingfly/media-pipeline/blob/main/docs/workspace.md).

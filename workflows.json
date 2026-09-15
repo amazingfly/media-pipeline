@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "status_definition": "supported = maintained entry point with CPU checks; GPU access/deployment is not implied. experimental = specialized recipe. archived = preserved, not the default.",
+  "workflows": [
+    {
+      "id": "coordinator",
+      "status": "supported",
+      "entrypoints": [
+        "media_pipeline/runner.py"
+      ],
+      "requirements": "Component environments"
+    },
+    {
+      "id": "workspace",
+      "status": "supported",
+      "entrypoints": [
+        "scripts/workspace.py"
+      ],
+      "requirements": "One local workspace JSON"
+    },
+    {
+      "id": "provenance",
+      "status": "supported",
+      "entrypoints": [
+        "promptGetter/get_prompts.py"
+      ],
+      "requirements": "Existing component manifests"
+    },
+    {
+      "id": "publishing",
+      "status": "supported",
+      "entrypoints": [
+        "scripts/upload_video.py"
+      ],
+      "requirements": "Optional publishing dependencies and explicit invocation"
+    },
+    {
+      "id": "littlequeen-legacy",
+      "status": "archived",
+      "entrypoints": [
+        "scripts/run_validated_littlequeen_workflow.py"
+      ],
+      "requirements": "Historical production recipe; prefer configured coordinator"
+    }
+  ]
+}

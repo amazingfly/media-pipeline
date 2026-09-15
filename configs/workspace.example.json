@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "components": {
+    "ltx": {
+      "root": "/path/to/ltx-video",
+      "python": ".venv/bin/python"
+    },
+    "sa3": {
+      "root": "/path/to/sa3",
+      "python": ".venv/bin/python"
+    },
+    "images": {
+      "root": "/path/to/images",
+      "python": ".venv/bin/python"
+    },
+    "storybook": {
+      "root": "/path/to/storybook-pipeline",
+      "python": ".venv/bin/python"
+    },
+    "pipeline": {
+      "root": "/path/to/media-pipeline",
+      "python": ".venv/bin/python"
+    }
+  },
+  "paths": {
+    "data": "/path/to/data",
+    "models": "/path/to/data/models",
+    "datasets": "/path/to/data/datasets",
+    "runs": "/path/to/data/runs",
+    "credentials": "/path/to/private/auth",
+    "images": "/path/to/data/images",
+    "music": "/path/to/data/audio"
+  }
+}
